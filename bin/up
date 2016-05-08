@@ -1,11 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # up: find out what's up
 # ----------------------
 #
-### from subprocess import call
-import sys      # for accessing command line arguments
-import pythonLibs.tomsUlbFunctions as ulbLib
+import sys
+sys.path.append( '/usr/local/bin/pythonLibs' )
+import tomsUlbFunctions as ulbLib
 
 ###################
 #
