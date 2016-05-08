@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #
 # tomsUlbFunctions.py: define functions useful for more than one program in /usr/local/bin
 # ----------------------------------------------------------------------------------------
