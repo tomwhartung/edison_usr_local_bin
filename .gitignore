@@ -2,6 +2,7 @@
 # Documentation is here: http://git-scm.com/docs/gitignore
 #
 tmp/
+__pycache__/
 #
 #  I switch between vi, netbeans, and eclipse
 #
