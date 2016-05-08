@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+#
+# up: find out what's up
+# ----------------------
+#
+### from subprocess import call
+import sys      # for accessing command line arguments
+import pythonLibs.tomsUlbFunctions as ulbLib
+
+###################
+#
+# Initialization
+#
+if ( len(sys.argv) < 2 ) :
+	toMatch = ''
+else :
+	toMatch = sys.argv[1]
+
+print( 'toMatch: "' + toMatch + '"' )
+
+###################
+#
+#  Mainline code
+#
+ulbLib.getMatchingProcesses( toMatch )
+
+exitVal = 0
+
+exit( exitVal )
