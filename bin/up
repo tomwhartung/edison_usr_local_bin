@@ -5,6 +5,7 @@
 #
 import sys
 sys.path.append( '/usr/local/bin/pythonLibs' )
+## print( 'sys.path: [%s]' % ', '.join(map(str, sys.path)) )
 import tomsUlbFunctions as ulbLib
 
 ###################
