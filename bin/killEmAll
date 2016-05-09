@@ -8,10 +8,12 @@
 #   also works on Yocto Linux
 #   asks for confirmation unless -y option is specified
 #
+import argparse
 import string
 import sys
+
 sys.path.append( '/usr/local/bin/pythonLibs' )
-import ulbFcns
+import ulbFcns     # custom functions in the pythonLibs subdir
 
 ###################
 # Functions
@@ -42,30 +44,33 @@ def killTheProcesses( matchingLines ) :
 		if( ulbFcns.isYoctoLinux() ) :
 			pid = processInfo[0]
 			owner = processInfo[1]
-                else :
+		else :
 			owner = processInfo[0]
 			pid = processInfo[1]
 		print( 'Killing process ' + pid + ' owned by ' + owner )
 		killCommand = 'kill -9 ' + pid
-		ulbFcns.myCall( killCommand )
+		## ulbFcns.myCall( killCommand )
 
 ###################
 # Initialization
 #
 exitVal = 0
 
-if ( len(sys.argv) < 2 ) :
-	badSyntax()
-	exit(1)
-else :
-	toMatch = sys.argv[1]
+argsParser = argparse.ArgumentParser()
+argsParser.add_argument("toMatch", help="string to match the processes we want to kill")
+argsParser.add_argument("-y", "--yes", help="do not ask for confirmation before killing processes",
+                    action="store_true")
+
+args = argsParser.parse_args()
+
 
 ###################
 #  Mainline code
 #
-## print( 'toMatch: "' + toMatch + '"' )
+print( 'args.toMatch: "' + args.toMatch + '"' )
+print( 'args.yes: "' + str(args.yes) + '"' )
 #
-matchingLines = ulbFcns.getMatchingProcesses( toMatch )
+matchingLines = ulbFcns.getMatchingProcesses( args.toMatch )
 
 if( len(matchingLines) > 0 ) :
 	print( 'Killing the following processes.  Use "up" to verify processes are gone.' )
