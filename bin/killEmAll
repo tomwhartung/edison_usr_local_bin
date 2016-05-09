@@ -39,8 +39,12 @@ def killTheProcesses( matchingLines ) :
 	for matchingLine in matchingLines :
 		## processInfo = string.split( matchingLine, '\w+' )
 		processInfo = matchingLine.split()
-		pid = processInfo[0]
-		owner = processInfo[1]
+		if( ulbFcns.isYoctoLinux() ) :
+			pid = processInfo[0]
+			owner = processInfo[1]
+                else :
+			owner = processInfo[0]
+			pid = processInfo[1]
 		print( 'Killing process ' + pid + ' owned by ' + owner )
 		killCommand = 'kill -9 ' + pid
 		ulbFcns.myCall( killCommand )
