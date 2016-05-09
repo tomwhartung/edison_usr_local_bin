@@ -3,34 +3,13 @@
 # tomsUlbFunctions.py: define functions useful for more than one program in /usr/local/bin
 # ----------------------------------------------------------------------------------------
 #
-import getopt   # for processing command line options
-import os       # for getting values for environment vars
-import string
-import sys      # for accessing command line arguments
-import time     # for the date string in our backup file name
-
-## from re import *
+import getopt      # for processing command line options
+import os          # for getting values for environment vars
 import re
-
-## from subprocess import call, check_output
-## from subprocess import Popen, PIPE
+import string
 import subprocess
-
-##
-#  Wrapper function to run a command
-#
-def myCall( shellCommand ) :
-	call( shellCommand, shell=True )
-
-##
-#  Wrapper function to run a command and return its output
-#  Version 1 (untested...)
-#
-def runCommand ( shellCommand ) :
-	process = Popen(["ls", "-la", "."], stdout=PIPE)
-	(output, err) = process.communicate()
-	exit_code = process.wait()
-	return output
+import sys         # for accessing command line arguments
+import time        # for the date string in our backup file name
 
 ##
 #  Wrapper to check_output function
@@ -38,6 +17,21 @@ def runCommand ( shellCommand ) :
 def getCommandOutput( shellCommand, commandArgs ) :
 	commandOutput = subprocess.check_output( [ shellCommand, commandArgs ] )
 	return commandOutput
+
+##
+#  UNUSED Wrapper function to run a command
+#
+def myCallUNUSED( shellCommand ) :
+	call( shellCommand, shell=True )
+
+##
+#  UNUSED Wrapper function to run a command and return its output
+#
+def runCommandUNUSED ( shellCommand ) :
+	process = Popen(["ls", "-la", "."], stdout=PIPE)
+	(output, err) = process.communicate()
+	exit_code = process.wait()
+	return output
 
 ##
 #  Determine whether we are using Yocto Linux (on the Edison)
@@ -74,8 +68,6 @@ def getMatchingProcesses( toMatch ) :
 				matchingLines.append( psLine )
 	else :
 		matchingLines = psOutputLines
-	for matchingLine in matchingLines :
-		print( 'matchingLine: ' + matchingLine )
 	return matchingLines
 
 #
