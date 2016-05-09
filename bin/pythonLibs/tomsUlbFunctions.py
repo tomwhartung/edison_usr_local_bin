@@ -62,7 +62,6 @@ def getMatchingProcesses( toMatch ) :
 	matchingLines = []
 	if( len(toMatch) > 0 ) :
 		pid = os.getpid()
-		print( 'pid: ' + str(pid) )
 		ptnThisProcess = re.compile( str(pid) )
 		ptnToMatch = re.compile( toMatch )
 		for psLine in psOutputLines :
@@ -71,8 +70,9 @@ def getMatchingProcesses( toMatch ) :
 				matchObjectOrNone = ptnThisProcess.search( psLine )
 				if( str(matchObjectOrNone) == 'None' ) :
 					matchingLines.append( psLine )
-				else :
-					print( 'Skipping ps output line for this process: ' + psLine )
+			##	else :
+			##		print( 'pid: ' + str(pid) )
+			##		print( 'Skipping ps output line for this process: ' + psLine )
 	else :
 		matchingLines = psOutputLines
 	return matchingLines
