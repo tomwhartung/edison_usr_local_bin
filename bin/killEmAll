@@ -1,0 +1,50 @@
+#!/usr/bin/python
+#
+# killEmAll: kill processes matched by string
+# -------------------------------------------
+# Equivalent of
+#   ps -aef | grep <toMatch> | xargs kill -9
+# Except:
+#   also works on Yocto Linux
+#   asks for confirmation unless -y option is specified
+#
+import sys
+sys.path.append( '/usr/local/bin/pythonLibs' )
+import tomsUlbFunctions as ulbFcns
+
+##
+# Displays a syntax statement
+#
+def syntax()
+	print( 'killEmAll [-y] stringToMatch' )
+	print( '  -y: do not ask for confirmation before killing processes ' )
+
+def badSyntax()
+	syntax()
+	print( 'You must specify exactly one stringToMatch' )
+
+###################
+# Initialization
+#
+exitVal = 0
+
+if ( len(sys.argv) < 2 ) :
+	badSyntax()
+	exit(1)
+else :
+	toMatch = sys.argv[1]
+
+###################
+#  Mainline code
+#
+## print( 'toMatch: "' + toMatch + '"' )
+#
+matchingLines = ulbFcns.getMatchingProcesses( toMatch )
+
+if( len(matchingLines) > 0 ) :
+	for matchingLine in matchingLines :
+		print( matchingLine )
+else :
+	exitVal = 1
+
+exit( exitVal )
