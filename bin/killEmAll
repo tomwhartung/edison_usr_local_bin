@@ -32,9 +32,17 @@ def killTheProcesses( matchingLines ) :
 		else :
 			owner = processInfo[0]
 			pid = processInfo[1]
-		print( 'Killing process ' + pid + ' owned by ' + owner )
 		killCommand = 'kill -9 ' + pid
-		## ulbFcns.myCall( killCommand )
+		if( args.yes ) :
+			print( 'Killing process ' + pid + ' owned by ' + owner )
+			ulbFcns.myCall( killCommand )
+		else :
+			yOrN = raw_input( 'Enter "y" to kill process ' + pid + ' owned by ' + owner + ': ' )
+			if( yOrN == 'y' or yOrN == 'Y' ) :
+				print( 'Killing process ' + pid + ' owned by ' + owner )
+				ulbFcns.myCall( killCommand )
+			else :
+				print( 'NOT killing process ' + pid + ' owned by ' + owner )
 
 ###################
 # Initialization
@@ -43,8 +51,9 @@ exitVal = 0
 
 argsParser = argparse.ArgumentParser( description='Kills all processes matching toMatch' )
 argsParser.add_argument("toMatch", help="string to match the processes we want to kill")
-argsParser.add_argument("-y", "--yes", help="do not ask for confirmation before killing processes",
-                    action="store_true")
+argsParser.add_argument("-y", "--yes",
+		help="do not ask for confirmation before killing each matching process",
+		action="store_true")
 args = argsParser.parse_args()
 
 
