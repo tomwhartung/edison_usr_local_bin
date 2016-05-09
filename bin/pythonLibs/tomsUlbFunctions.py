@@ -3,10 +3,11 @@
 # tomsUlbFunctions.py: define functions useful for more than one program in /usr/local/bin
 # ----------------------------------------------------------------------------------------
 #
+import getopt   # for processing command line options
 import os       # for getting values for environment vars
+import string
 import sys      # for accessing command line arguments
 import time     # for the date string in our backup file name
-import getopt   # for processing command line options
 
 from re import *
 ## from subprocess import call, check_output
@@ -42,12 +43,10 @@ def getCommandOutput( shellCommand, commandArgs ) :
 #
 def isYoctoLinux() :
 	unameOutput = getCommandOutput( 'uname', '-a' )
-## pattern = compile( 'Ubuntu' )
 	pattern = compile( 'poky' )
 	matchObjectOrNone = pattern.search( unameOutput )
-	print( 'unameOutput: ' + unameOutput )
-	print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
-##	if( isInstance(matchObjectOrNone, MatchObject ) :
+##	print( 'unameOutput: ' + unameOutput )
+##	print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
 	if( str(matchObjectOrNone) == 'None' ) :
 		isYocto = False
 	else :
@@ -59,9 +58,12 @@ def getMatchingProcesses( toMatch ) :
 		psCommandArgs = ''
 	else :
 		psCommandArgs = '-aef'
-	## psCommand = 'ps ' + psCommandArgs
-	## myCall( psCommand )
+	## getCommandOutput( 'ps', psCommandArgs )
 	psCommandOutput = getCommandOutput( 'ps', psCommandArgs )
+	## psOutputLines = split( '/n', psCommandOutput )
+	psOutputLines = string.split( psCommandOutput, '\n' )
+	for psLine in psOutputLines :
+		print( 'psLine: ' + psLine )
 
 #
 #  Process the command line arguments.
