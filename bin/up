@@ -24,7 +24,7 @@ print( 'toMatch: "' + toMatch + '"' )
 #  Mainline code
 #
 
-## ulbLib.getMatchingProcesses( toMatch )
+ulbLib.getMatchingProcesses( toMatch )
 
 isYoctoLinux = ulbLib.isYoctoLinux()
 
