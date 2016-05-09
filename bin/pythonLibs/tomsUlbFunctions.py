@@ -3,11 +3,15 @@
 # tomsUlbFunctions.py: define functions useful for more than one program in /usr/local/bin
 # ----------------------------------------------------------------------------------------
 #
-from subprocess import call
 import os       # for getting values for environment vars
 import sys      # for accessing command line arguments
 import time     # for the date string in our backup file name
 import getopt   # for processing command line options
+
+from re import *
+## from subprocess import call, check_output
+## from subprocess import Popen, PIPE
+import subprocess
 
 ##
 #  Wrapper function to run a command
@@ -16,10 +20,29 @@ def myCall( shellCommand ) :
 	call( shellCommand, shell=True )
 
 ##
+#  Wrapper function to run a command and return its output
+#  Version 1 (untested...)
+#
+def runCommand ( shellCommand ) :
+	process = Popen(["ls", "-la", "."], stdout=PIPE)
+	(output, err) = process.communicate()
+	exit_code = process.wait()
+	return output
+
+##
+#  Wrapper to check_output function
+#
+def getCommandOutput( shellCommand, commandArgs ) :
+	commandOutput = subprocess.check_output( [ shellCommand, commandArgs ] )
+	return commandOutput
+
+##
 #  Determine whether we are using Yocto Linux (on the Edison)
 #  If not, assume debian
 #
 def isYoctoLinux() :
+	unameOutput = getCommandOutput( 'uname', '-a' )
+	print( 'unameOutput: ' + unameOutput )
 	return False
 
 def getMatchingProcesses( toMatch ) :
@@ -27,8 +50,9 @@ def getMatchingProcesses( toMatch ) :
 		psCommandArgs = ''
 	else :
 		psCommandArgs = '-aef'
-	psCommand = 'ps ' + psCommandArgs
-	myCall( psCommand )
+	## psCommand = 'ps ' + psCommandArgs
+	## myCall( psCommand )
+	psCommandOutput = getCommandOutput( 'ps', psCommandArgs )
 
 #
 #  Process the command line arguments.
