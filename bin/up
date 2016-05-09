@@ -2,13 +2,15 @@
 #
 # up: find out what's up
 # ----------------------
+# Equivalent of
+#   ps -aef | grep <toMatch>
+# Except also works on Yocto Linux
 #
 import sys
 sys.path.append( '/usr/local/bin/pythonLibs' )
-import tomsUlbFunctions as ulbLib
+import tomsUlbFunctions as ulbFcns
 
 ###################
-#
 # Initialization
 #
 exitVal = 0
@@ -18,20 +20,16 @@ if ( len(sys.argv) < 2 ) :
 else :
 	toMatch = sys.argv[1]
 
-print( 'toMatch: "' + toMatch + '"' )
-isYoctoLinux = ulbLib.isYoctoLinux()
-print( 'isYoctoLinux  = ' + str(isYoctoLinux) )
-
-
 ###################
-#
 #  Mainline code
 #
-matchingLines = ulbLib.getMatchingProcesses( toMatch )
+## print( 'toMatch: "' + toMatch + '"' )
+#
+matchingLines = ulbFcns.getMatchingProcesses( toMatch )
 
 if( len(matchingLines) > 0 ) :
 	for matchingLine in matchingLines :
-		print( 'matchingLine: ' + matchingLine )
+		print( matchingLine )
 else :
 	exitVal = 1
 
