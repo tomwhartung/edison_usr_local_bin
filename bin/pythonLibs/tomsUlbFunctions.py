@@ -9,7 +9,9 @@ import string
 import sys      # for accessing command line arguments
 import time     # for the date string in our backup file name
 
-from re import *
+## from re import *
+import re
+
 ## from subprocess import call, check_output
 ## from subprocess import Popen, PIPE
 import subprocess
@@ -43,7 +45,7 @@ def getCommandOutput( shellCommand, commandArgs ) :
 #
 def isYoctoLinux() :
 	unameOutput = getCommandOutput( 'uname', '-a' )
-	pattern = compile( 'poky' )
+	pattern = re.compile( 'poky' )
 	matchObjectOrNone = pattern.search( unameOutput )
 ##	print( 'unameOutput: ' + unameOutput )
 ##	print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
@@ -61,18 +63,20 @@ def getMatchingProcesses( toMatch ) :
 		psCommandArgs = ''
 	else :
 		psCommandArgs = '-aef'
-	## getCommandOutput( 'ps', psCommandArgs )
 	psCommandOutput = getCommandOutput( 'ps', psCommandArgs )
 	psOutputLines = string.split( psCommandOutput, '\n' )
-	## if( len(toMatch) > 0 ) :
 	matchingLines = []
-	pattern = compile( toMatch )
-	for psLine in psOutputLines :
-		matchObjectOrNone = pattern.search( psLine )
-		## if( isinstance(matchObjectOrNone, MatchObject) ) :
-		print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
-	for psLine in psOutputLines :
-		print( 'psLine: ' + psLine )
+	if( len(toMatch) > 0 ) :
+		pattern = re.compile( toMatch )
+		for psLine in psOutputLines :
+			matchObjectOrNone = pattern.search( psLine )
+			if( str(matchObjectOrNone) != 'None' ) :
+				matchingLines.append( psLine )
+	else :
+		matchingLines = psOutputLines
+	for matchingLine in matchingLines :
+		print( 'matchingLine: ' + matchingLine )
+	return matchingLines
 
 #
 #  Process the command line arguments.
