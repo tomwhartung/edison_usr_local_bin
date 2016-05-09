@@ -8,7 +8,7 @@
 #
 import sys
 sys.path.append( '/usr/local/bin/pythonLibs' )
-import tomsUlbFunctions as ulbFcns
+import ulbFcns
 
 ###################
 # Initialization
