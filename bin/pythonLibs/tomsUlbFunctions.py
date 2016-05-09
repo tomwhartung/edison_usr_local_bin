@@ -39,8 +39,8 @@ def runCommandUNUSED ( shellCommand ) :
 #
 def isYoctoLinux() :
 	unameOutput = getCommandOutput( 'uname', '-a' )
-	pattern = re.compile( 'poky' )
-	matchObjectOrNone = pattern.search( unameOutput )
+	ptnYocto = re.compile( 'poky' )
+	matchObjectOrNone = ptnYocto.search( unameOutput )
 ##	print( 'unameOutput: ' + unameOutput )
 ##	print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
 	if( str(matchObjectOrNone) == 'None' ) :
@@ -61,11 +61,18 @@ def getMatchingProcesses( toMatch ) :
 	psOutputLines = string.split( psCommandOutput, '\n' )
 	matchingLines = []
 	if( len(toMatch) > 0 ) :
-		pattern = re.compile( toMatch )
+		pid = os.getpid()
+		print( 'pid: ' + str(pid) )
+		ptnThisProcess = re.compile( str(pid) )
+		ptnToMatch = re.compile( toMatch )
 		for psLine in psOutputLines :
-			matchObjectOrNone = pattern.search( psLine )
+			matchObjectOrNone = ptnToMatch.search( psLine )
 			if( str(matchObjectOrNone) != 'None' ) :
-				matchingLines.append( psLine )
+				matchObjectOrNone = ptnThisProcess.search( psLine )
+				if( str(matchObjectOrNone) == 'None' ) :
+					matchingLines.append( psLine )
+				else :
+					print( 'Skipping ps output line for this process: ' + psLine )
 	else :
 		matchingLines = psOutputLines
 	return matchingLines
