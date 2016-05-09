@@ -53,6 +53,9 @@ def isYoctoLinux() :
 		isYocto = True
 	return isYocto
 
+##
+# Runs ps command and returns lines containing string to match
+#
 def getMatchingProcesses( toMatch ) :
 	if ( isYoctoLinux() ) :
 		psCommandArgs = ''
@@ -60,8 +63,14 @@ def getMatchingProcesses( toMatch ) :
 		psCommandArgs = '-aef'
 	## getCommandOutput( 'ps', psCommandArgs )
 	psCommandOutput = getCommandOutput( 'ps', psCommandArgs )
-	## psOutputLines = split( '/n', psCommandOutput )
 	psOutputLines = string.split( psCommandOutput, '\n' )
+	## if( len(toMatch) > 0 ) :
+	matchingLines = []
+	pattern = compile( toMatch )
+	for psLine in psOutputLines :
+		matchObjectOrNone = pattern.search( psLine )
+		## if( isinstance(matchObjectOrNone, MatchObject) ) :
+		print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
 	for psLine in psOutputLines :
 		print( 'psLine: ' + psLine )
 
