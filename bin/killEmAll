@@ -8,9 +8,14 @@
 #   also works on Yocto Linux
 #   asks for confirmation unless -y option is specified
 #
+import string
 import sys
 sys.path.append( '/usr/local/bin/pythonLibs' )
 import tomsUlbFunctions as ulbFcns
+
+###################
+# Functions
+#
 
 ##
 # Displays a syntax statement
@@ -18,10 +23,27 @@ import tomsUlbFunctions as ulbFcns
 def syntax() :
 	print( 'killEmAll [-y] stringToMatch' )
 	print( '  -y: do not ask for confirmation before killing processes ' )
+	print( 'Kills all processes matching stringToMatch' )
 
+##
+# Displays a syntax statement followed by an error message
+#
 def badSyntax() :
 	syntax()
 	print( 'You must specify exactly one stringToMatch' )
+
+##
+# Kill the processes in the list
+#
+def killTheProcesses( matchingLines ) :
+	for matchingLine in matchingLines :
+		## processInfo = string.split( matchingLine, '\w+' )
+		processInfo = matchingLine.split()
+		pid = processInfo[0]
+		owner = processInfo[1]
+		print( 'Killing process ' + pid + ' owned by ' + owner )
+		killCommand = 'kill -9 ' + pid
+		ulbFcns.myCall( killCommand )
 
 ###################
 # Initialization
@@ -42,9 +64,12 @@ else :
 matchingLines = ulbFcns.getMatchingProcesses( toMatch )
 
 if( len(matchingLines) > 0 ) :
+	print( 'Killing the following processes.  Use "up" to verify processes are gone.' )
 	for matchingLine in matchingLines :
 		print( matchingLine )
+	killTheProcesses( matchingLines )
 else :
+	print( 'No processes found to kill.  Use "up" to find processes.' )
 	exitVal = 1
 
 exit( exitVal )
