@@ -39,11 +39,11 @@ def runCommandUNUSED ( shellCommand ) :
 #
 def isYoctoLinux() :
 	unameOutput = getCommandOutput( 'uname', '-a' )
-	ptnYocto = re.compile( 'poky' )
-	matchObjectOrNone = ptnYocto.search( unameOutput )
+	patternYocto = re.compile( 'poky' )
+	matchesYocto = patternYocto.search( unameOutput )
 ##	print( 'unameOutput: ' + unameOutput )
-##	print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
-	if( str(matchObjectOrNone) == 'None' ) :
+##	print( 'matchesYocto: ' + str(matchesYocto) )
+	if( str(matchesYocto) == 'None' ) :
 		isYocto = False
 	else :
 		isYocto = True
@@ -62,13 +62,13 @@ def getMatchingProcesses( toMatch ) :
 	matchingLines = []
 	if( len(toMatch) > 0 ) :
 		pid = os.getpid()
-		ptnThisProcess = re.compile( str(pid) )
-		ptnToMatch = re.compile( toMatch )
+		patternThisProcess = re.compile( str(pid) )
+		patternToMatch = re.compile( toMatch )
 		for psLine in psOutputLines :
-			matchObjectOrNone = ptnToMatch.search( psLine )
-			if( str(matchObjectOrNone) != 'None' ) :
-				matchObjectOrNone = ptnThisProcess.search( psLine )
-				if( str(matchObjectOrNone) == 'None' ) :
+			matchesToMatch = patternToMatch.search( psLine )
+			if( str(matchesToMatch) != 'None' ) :
+				matchesThisProcess = patternThisProcess.search( psLine )
+				if( str(matchesThisProcess) == 'None' ) :
 					matchingLines.append( psLine )
 			##	else :
 			##		print( 'pid: ' + str(pid) )
