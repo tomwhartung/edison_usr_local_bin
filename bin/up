@@ -5,31 +5,34 @@
 #
 import sys
 sys.path.append( '/usr/local/bin/pythonLibs' )
-## print( 'sys.path: [%s]' % ', '.join(map(str, sys.path)) )
 import tomsUlbFunctions as ulbLib
 
 ###################
 #
 # Initialization
 #
+exitVal = 0
+
 if ( len(sys.argv) < 2 ) :
 	toMatch = ''
 else :
 	toMatch = sys.argv[1]
 
 print( 'toMatch: "' + toMatch + '"' )
+isYoctoLinux = ulbLib.isYoctoLinux()
+print( 'isYoctoLinux  = ' + str(isYoctoLinux) )
+
 
 ###################
 #
 #  Mainline code
 #
+matchingLines = ulbLib.getMatchingProcesses( toMatch )
 
-ulbLib.getMatchingProcesses( toMatch )
-
-isYoctoLinux = ulbLib.isYoctoLinux()
-
-print( 'isYoctoLinux  = ' + str(isYoctoLinux) )
-
-exitVal = 0
+if( len(matchingLines) > 0 ) :
+	for matchingLine in matchingLines :
+		print( 'matchingLine: ' + matchingLine )
+else :
+	exitVal = 1
 
 exit( exitVal )
