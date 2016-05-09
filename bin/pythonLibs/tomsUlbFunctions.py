@@ -12,17 +12,17 @@ import sys         # for accessing command line arguments
 import time        # for the date string in our backup file name
 
 ##
+#  Wrapper function to run a command
+#
+def myCall( shellCommand ) :
+	subprocess.call( shellCommand, shell=True )
+
+##
 #  Wrapper to check_output function
 #
 def getCommandOutput( shellCommand, commandArgs ) :
 	commandOutput = subprocess.check_output( [ shellCommand, commandArgs ] )
 	return commandOutput
-
-##
-#  UNUSED Wrapper function to run a command
-#
-def myCallUNUSED( shellCommand ) :
-	call( shellCommand, shell=True )
 
 ##
 #  UNUSED Wrapper function to run a command and return its output
