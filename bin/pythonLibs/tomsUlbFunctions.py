@@ -42,8 +42,17 @@ def getCommandOutput( shellCommand, commandArgs ) :
 #
 def isYoctoLinux() :
 	unameOutput = getCommandOutput( 'uname', '-a' )
+## pattern = compile( 'Ubuntu' )
+	pattern = compile( 'poky' )
+	matchObjectOrNone = pattern.search( unameOutput )
 	print( 'unameOutput: ' + unameOutput )
-	return False
+	print( 'matchObjectOrNone: ' + str(matchObjectOrNone) )
+##	if( isInstance(matchObjectOrNone, MatchObject ) :
+	if( str(matchObjectOrNone) == 'None' ) :
+		isYocto = False
+	else :
+		isYocto = True
+	return isYocto
 
 def getMatchingProcesses( toMatch ) :
 	if ( isYoctoLinux() ) :
