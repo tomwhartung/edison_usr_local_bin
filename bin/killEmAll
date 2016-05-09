@@ -15,11 +15,11 @@ import tomsUlbFunctions as ulbFcns
 ##
 # Displays a syntax statement
 #
-def syntax()
+def syntax() :
 	print( 'killEmAll [-y] stringToMatch' )
 	print( '  -y: do not ask for confirmation before killing processes ' )
 
-def badSyntax()
+def badSyntax() :
 	syntax()
 	print( 'You must specify exactly one stringToMatch' )
 
