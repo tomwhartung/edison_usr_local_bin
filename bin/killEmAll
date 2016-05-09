@@ -20,21 +20,6 @@ import ulbFcns     # custom functions in the pythonLibs subdir
 #
 
 ##
-# Displays a syntax statement
-#
-def syntax() :
-	print( 'killEmAll [-y] stringToMatch' )
-	print( '  -y: do not ask for confirmation before killing processes ' )
-	print( 'Kills all processes matching stringToMatch' )
-
-##
-# Displays a syntax statement followed by an error message
-#
-def badSyntax() :
-	syntax()
-	print( 'You must specify exactly one stringToMatch' )
-
-##
 # Kill the processes in the list
 #
 def killTheProcesses( matchingLines ) :
@@ -56,11 +41,10 @@ def killTheProcesses( matchingLines ) :
 #
 exitVal = 0
 
-argsParser = argparse.ArgumentParser()
+argsParser = argparse.ArgumentParser( description='Kills all processes matching toMatch' )
 argsParser.add_argument("toMatch", help="string to match the processes we want to kill")
 argsParser.add_argument("-y", "--yes", help="do not ask for confirmation before killing processes",
                     action="store_true")
-
 args = argsParser.parse_args()
 
 
