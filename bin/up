@@ -8,6 +8,7 @@
 #
 import sys
 sys.path.append( '/usr/local/bin/pythonLibs' )
+sys.path.append( '/home/tomh/iot/customizations/edison_usr_local_bin/bin/pythonLibs/' )
 import ulbFcns
 
 ###################
